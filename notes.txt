@@ -1,0 +1,7 @@
+current issue: getting the dates for the previous month to show up in the calendar
+
+solutions
+- when the first day of the month isn't Monday (0 in getDay()) then run a for loop which will add to the array the rest of the days of the week.
+in order to do this, you will need to use array.unshift(value) to insert a value in the start of the month.
+when a new value is added 
+- create a dummy

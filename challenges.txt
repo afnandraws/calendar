@@ -1,0 +1,4 @@
+challenges faced
+- making the data show appropriately, it was overly complex at first, was going to use lists and a flex styling for each row but then decided to use table instead
+- when the month was selected it was passing on the name of the month instead of the number to the Date() function, so I used indexOf
+- I was having an issue because although I could get the months data to show appropriately, I also wanted to show the rest of the days of the week, if they pertained to the last month

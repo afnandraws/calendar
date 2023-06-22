@@ -1,0 +1,19 @@
+---
+const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+const yearHandler = () => {
+    const currentDate = new Date().getFullYear()
+    var years = [];
+    for (var a: number = 0; a < 100; a++) {
+        years.push(currentDate-a)
+    }
+    return years
+}
+
+const years = yearHandler()
+---
+   
+
+
+
+
