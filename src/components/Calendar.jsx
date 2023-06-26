@@ -140,9 +140,11 @@ const Calendar = () => {
     
     }}, [selectedMonth, selectedYear])
 
-    const inputHandler = (event) => {
+    const inputHandler = (event) => { 
+    const inputDate = new Date(event.target.value)
     if (event.key === 'Enter') {
-        console.log(`The date is: ${new Date(event.target.value)}`)
+        console.log(`The date is: ${inputDate}`)
+        //inputDate.getMonth() + 1
     }
 
     }

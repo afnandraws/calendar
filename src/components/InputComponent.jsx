@@ -3,7 +3,7 @@ import { useState } from "react";
 const InputComponent = (props) => {
     const [date, setDate] = useState({day: props.currentDay , month: props.currentMonth, year: props.currentYear})
     
-
+    
 
     return ( 
         <div>
