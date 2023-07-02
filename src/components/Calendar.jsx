@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import InputComponent from "./InputComponent";
 
 const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const currentDate = new Date()
@@ -10,8 +9,8 @@ const currentDay = currentDate.getDate()
 const initialYearHandler = () => {
     
     var years = [];
-    for (var a = 0; a < 5; a++) {
-        years.push(currentYear+a)
+    for (var a = 0; a < 9; a++) {
+        years.push(currentYear-4+a)
     }
     return years
     }
@@ -21,6 +20,7 @@ const years = initialYearHandler()
 const Calendar = () => {
     const [selectedYear, setSelectedYear] = useState(currentYear)
     const [selectedMonth, setSelectedMonth] = useState(currentMonth < 10 ? `0${currentMonth}` : currentMonth)
+    const [Day, setDay] = useState(currentDay)
     const [calendar, setCalendar] = useState([])
 
     console.log(`month is ${selectedMonth}`)
@@ -36,9 +36,7 @@ const Calendar = () => {
     
     const monthHandler = (event) => {
         //need to make it so that it passes on the number of the month, not the actual month value
-
         setSelectedMonth(month.indexOf(`${event.target.value}`) + 1 < 10 ? `0${month.indexOf(`${event.target.value}`) + 1}` : `${month.indexOf(`${event.target.value}`) + 1}`)
-
         setCalendar([])
     }
 
@@ -133,7 +131,7 @@ const Calendar = () => {
     let start = 0;
     let end = 7;
     for (let b = 0; b < 6; b++) {   
-        const temp = days.slice(start, end).map(item => {return <td><button style={{color: item.prev ? 'red' : ''}}>{item.date}</button></td>})
+        const temp = days.slice(start, end).map(item => {return <td><button id={item.date} style={{color: item.prev ? 'red' : ''}}>{item.date}</button></td>})
         setCalendar(prevState => [...prevState, <tr>{temp}</tr>])
         start += 7
         end += 7
@@ -141,19 +139,34 @@ const Calendar = () => {
     }}, [selectedMonth, selectedYear])
 
     const inputHandler = (event) => { 
-    const inputDate = new Date(event.target.value)
-    if (event.key === 'Enter') {
-        console.log(`The date is: ${inputDate}`)
-        //inputDate.getMonth() + 1
+        const inputDate = new Date(event.target.value)
+
+        if (event.key === 'Enter') {
+
+            if (inputDate.getFullYear() === selectedYear && inputDate.getMonth() + 1 === selectedMonth * 1) {
+            setDay(inputDate.getDate())
+            return
+            }
+
+            if (inputDate && years.includes(inputDate.getFullYear())) {
+            console.log(`The date is: ${inputDate}`)
+
+            setSelectedYear(inputDate.getFullYear())
+            setSelectedMonth(inputDate.getMonth() + 1 < 10 ? `0${inputDate.getMonth() + 1}` : inputDate.getMonth() + 1)
+            setCalendar([])
+        
+            } else {
+            console.error('error')
+            }
+        }
     }
 
-    }
-    const temp = `${month.at(currentMonth - 1)} ${currentDay}, ${currentYear}`
+    const defaultValue = `${month.at(selectedMonth - 1)} ${currentDay}, ${selectedYear}`
 
     return (
     <div>
         <div>
-        <select onChange={monthHandler} id="month" defaultValue={month.at(currentMonth - 1)}>
+        <select onChange={monthHandler} id="month" defaultValue={month.at(currentMonth - 1)} value={month.at(selectedMonth - 1)}>
             {month.map((data) => <option key={month.indexOf(data)}>{data}</option>)}
         </select>
         
@@ -162,7 +175,7 @@ const Calendar = () => {
         </select>
         <br/>
         
-        <input type="text" onKeyDown={inputHandler} defaultValue={`${month.at(currentMonth - 1)} ${currentDay}, ${currentYear}`}/>
+        <input type="text" onKeyDown={inputHandler} defaultValue={defaultValue}/>
         
         <table>
             <thead>
